@@ -1,0 +1,35 @@
+{
+    "accidentReports": [
+      {
+        "id": 1,
+        "accident_report_date": "2023-06-15",
+        "whitelevel_id": "cttc1234",
+        "accident_type": 2,
+        "severity": 3,
+        "accident_id": "acc001",
+        "workmen_count": 2,
+        "workmen_names": "John Doe, Jane Smith"
+      },
+      {
+        "id": 2,
+        "accident_report_date": "2023-06-16",
+        "whitelevel_id": "cttc1234",
+        "accident_type": 1,
+        "severity": 2,
+        "accident_id": "acc002",
+        "workmen_count": 1,
+        "workmen_names": "Alice Johnson"
+      },
+      {
+        "id": 3,
+        "accident_report_date": "2023-06-17",
+        "whitelevel_id": "cttc1234",
+        "accident_type": 3,
+        "severity": 4,
+        "accident_id": "acc003",
+        "workmen_count": 3,
+        "workmen_names": "Bob Brown, Charlie Davis, Dave Evans"
+      }
+    ]
+  }
+  

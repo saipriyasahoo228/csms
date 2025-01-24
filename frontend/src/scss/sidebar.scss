@@ -1,0 +1,52 @@
+// /*@import url('https://fonts.googleapis.com/css?family=Cairo');*/
+// @import url('https://fonts.googleapis.com/css?family=Neuton|Oswald');
+
+// .company-brand {
+//   /*font-family: "Cairo";*/
+//   color: #FFF;
+//   text-align: center;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   height: 100%;
+// }
+
+// .company-brand .company-name{
+//   font-family: "Neuton";
+//   font-size: 1.5rem;
+//   white-space: nowrap;
+//   overflow: hidden;
+//   text-overflow: ellipsis;
+//   background-image: url(https://media.giphy.com/media/0WZm5WXh38ntp4ITyE/giphy.gif?cid=ecf05e47t30y0011x2u4qbp1nz1pv6i649o6t000r0wjz6cj&ep=v1_gifs_search&rid=giphy.gif&ct=g);
+//   background-size: cover;
+//   color: transparent;
+//   -moz-background-clip: text;
+//   -webkit-background-clip: text;
+//   text-transform: uppercase;
+// }
+
+
+.company-brand {
+
+  height: 100px; /* Set a fixed height for the container */
+  overflow: hidden; /* Hide overflow content */
+ // border: 1px solid #ddd; /* Optional border */
+  padding: 3px; /* Optional padding */
+  position: relative; /* Positioning context for potential absolute positioning of content */
+}
+
+.company-brand .company-name {
+  font-family: "Neuton";
+  font-size: 1.5rem;
+  white-space: normal; /* Allow text to wrap */
+  overflow: visible; /* Allow content to flow outside the container if needed */
+  background-image: url(/images/company_name_bg.gif);
+  background-size: cover;
+  color: transparent;
+  -moz-background-clip: text;
+  -webkit-background-clip: text;
+  text-transform: uppercase;
+  display: flex; /* Ensure text wraps to the next line */
+  line-height: 1.5; /* Adjust line height for better readability */
+  justify-content: center;
+}

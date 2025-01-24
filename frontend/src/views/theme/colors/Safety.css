@@ -1,0 +1,17 @@
+.section{
+    /* height: 25rem; */
+    width: 45rem;
+    background: lightgray;
+    margin: 0 auto;
+    padding: 20px;
+}
+.input1{
+    width:1rem;
+    margin: 0 auto;
+}
+
+.input1[type="text"],[type="date"]{
+    width: 13rem;
+    height: 2rem;
+    margin: 0 1rem;
+}

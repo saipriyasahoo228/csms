@@ -1,0 +1,106 @@
+
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
+
+.glassmorphism {
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Darker shadow */
+    backdrop-filter: blur(12px); /* Increased blur for a stronger glass effect */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Slightly more visible border */
+  }
+
+  .big-card {
+    padding: 20px; /* Increased padding */
+    min-height: 130px; /* Increased height */
+    display: flex;
+    align-items:baseline;
+    justify-content: space-between;
+    color: #fff; /* White text color for contrast */
+  }
+
+  .bold-text {
+    font-weight: bold;
+    font-family:sans-serif;
+    font-size: 1.5rem; /* Larger font size */
+  }
+
+
+
+
+
+
+/* General Card Styling */
+.custom-card {
+  height: 140px;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 27px;
+  border-radius: 12px;
+  color: #fff; /* White text for better contrast */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+  margin-bottom: 16px; /* Add margin for spacing */
+}
+
+.custom-card:hover {
+  transform: scale(1.02); /* Slight zoom effect */
+  /* box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); */
+}
+
+/* Unique Background Colors */
+.card-new-issuance {
+  background: linear-gradient(to right, #4caf50, #81c784); /* Green Gradient */
+}
+
+.card-upcoming-issuance {
+  background: linear-gradient(to right, #2196f3, #64b5f6); /* Blue Gradient */
+}
+
+.card-safety-training {
+  background: linear-gradient(to right, #ff9800, #ffb74d); /* Orange Gradient */
+}
+
+.card-accident {
+  background: linear-gradient(to right, #f44336, #ef5350); /* Red Gradient */
+}
+
+/* Icon Container */
+.card-icon {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.2); /* Semi-transparent white */
+  border-radius: 50%;
+  margin-left: 16px; /* Added margin to push icon to the right */
+  font-size: 1.5rem;
+  color: #fff; /* Match the text color */
+}
+
+.card-content {
+  flex: 1; /* Allow content to take up the remaining space */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* Gradient Border Style */
+.custom-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+
+  border-radius: 12px 0 0 12px; /* Match the card border radius */
+}
+
+
+
+
+
+
