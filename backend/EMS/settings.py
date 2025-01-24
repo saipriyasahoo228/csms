@@ -19,7 +19,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='*', cast=Csv())
 
-CSRF_TRUSTED_ORIGINS = ['https://csms.novazen.in']
+CSRF_TRUSTED_ORIGINS = ['https://ammanassociated.com']
 
 # Application definition
 
