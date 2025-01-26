@@ -14,9 +14,11 @@ from rest_framework.views import APIView
 from django.shortcuts import get_object_or_404
 from EMS.views import get_authenticated_user_whitelevel_id
 from employee.models import Employee
-from .models import Training, Trainer, Trainee, TrainingReport
+from .models import Training, Trainer, Trainee, TrainingReport,TrainingType
 from .serializers import TrainingSerializer,TrainerSerializer,TraineeSerializer,TrainingTypeSerializer
 import logging
+from django.db.models import F
+
 
 logger = logging.getLogger(__name__)
 
@@ -124,6 +126,76 @@ def start_training(request):
             logger.error(f"Error in start_training: {str(e)}")
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+
+#Retrive all training details by passing whitelevel_id
+
+class TrainingListView(APIView):
+    """
+    API View to retrieve all training details for a given whitelevel_id.
+    """
+
+    def post(self, request, *args, **kwargs):
+        try:
+            # Extract whitelevel_id from the request data
+            whitelevel_id = request.data.get('whitelevel_id')
+
+            if not whitelevel_id:
+                return Response({"error": "whitelevel_id is required."}, status=status.HTTP_400_BAD_REQUEST)
+
+            # Fetch trainings for the given whitelevel_id
+            trainings = Training.objects.filter(whitelevel_id=whitelevel_id)
+
+            if not trainings.exists():
+                return Response({"message": "No trainings found for the given whitelevel_id."}, status=status.HTTP_404_NOT_FOUND)
+
+            # Serialize the training data
+            training_serializer = TrainingSerializer(trainings, many=True)
+
+            # Prepare response data with Base64-encoded training_image and related trainers and trainees
+            response_data = []
+            for training, serialized_data in zip(trainings, training_serializer.data):
+                # Convert training_image to Base64 string
+                training_image_base64 = None
+                if training.training_image and hasattr(training.training_image, 'read'):
+                    try:
+                        training_image_base64 = base64.b64encode(training.training_image.read()).decode('utf-8')
+                    except Exception:
+                        training_image_base64 = None
+
+                # Fetch trainers with corresponding employee_id
+                trainers = Trainer.objects.filter(training=training).values(
+                    'id',
+                    'trainer_id',
+                    'trainer_name',
+                    employee_id=F('trainer_id__employee_id')  # Include employee_id from the Employee table
+                )
+
+                # Fetch trainees with corresponding employee_id
+                trainees = Trainee.objects.filter(training=training).values(
+                    'id',
+                    'trainee_id',
+                    'trainee_name',
+                    employee_id=F('trainee_id__employee_id')  # Include employee_id from the Employee table
+                )
+
+                # Fetch the training_type from the TrainingType table (assuming it's a CharField)
+                training_type = training.training_type
+                training_type_name = training_type.training_type if training_type else None  # Fetch the name from training_type
+
+                # Copy serialized data and add related data
+                training_data = dict(serialized_data)
+                training_data['training_image'] = training_image_base64  # Add the Base64 image
+                training_data['trainers'] = list(trainers)
+                training_data['trainees'] = list(trainees)
+                training_data['training_type'] = training_type_name  # Add training_type name
+
+                response_data.append(training_data)
+
+            return Response(response_data, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            logger.error(f"Error retrieving training details: {str(e)}")
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
             
 
 #RETRIVE ALL RECORDS BY GIVING TRAINING_ID AND WHITELEVEL_ID

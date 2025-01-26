@@ -149,6 +149,56 @@ class IssueItemsDetailsAPIView(APIView):
 logger = logging.getLogger(__name__)
 
 
+#RETRIVE ALL ITEM DETAILS BY PASSING WHITELEVEL_ID
+class ItemsByWhiteLevelAPIView(APIView):
+    """
+    POST API to retrieve all item records for a given whitelevel_id.
+    Includes Base64 encoded image and corresponding employee details.
+    """
+
+    def post(self, request, *args, **kwargs):
+        whitelevel_id = request.data.get('whitelevel_id')
+
+        if not whitelevel_id:
+            return Response({"error": "whitelevel_id is required"}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            # Fetch all NewIssuance records for the given whitelevel_id
+            new_issuances = NewIssuance.objects.filter(white_level_id=whitelevel_id)
+
+            # Prepare data for response
+            response_data = []
+
+            for issuance in new_issuances:
+                # Serialize issuance details
+                issuance_data = NewIssuanceSerializer(issuance).data
+
+                # Convert the image to Base64 if it exists
+                if issuance.newIssuance_image:
+                    with open(issuance.newIssuance_image.path, "rb") as image_file:
+                        encoded_image = base64.b64encode(image_file.read()).decode("utf-8")
+                        issuance_data["newIssuance_image"] = encoded_image
+
+                # Fetch and serialize IssuedThings related to the issuance
+                issued_things = IssuedThings.objects.filter(issue_id=issuance.issuance_id)
+                issued_things_data = IssuedThingsSerializer(issued_things, many=True).data
+
+                # Fetch and serialize IssuedToEmployee related to the issuance
+                issued_to_employees = IssuedToEmployee.objects.filter(issue_id=issuance.issuance_id)
+                issued_to_employees_data = IssuedToEmployeeSerializer(issued_to_employees, many=True).data
+
+                # Add all data to the response
+                response_data.append({
+                    "issuance": issuance_data,
+                    "issued_things": issued_things_data,
+                    "issued_to_employees": issued_to_employees_data,
+                })
+
+            return Response(response_data, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return Response({"error": "An error occurred", "details": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 class NewIssuanceUpdateView(APIView):
     def put(self, request, *args, **kwargs):
         issuance_id = request.data.get('issuance_id')
